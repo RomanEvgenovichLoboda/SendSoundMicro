@@ -29,22 +29,38 @@ namespace SendSoundMicro
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.BackColor = Color.Red;
-            mciSendString("open new type WAVEAudio alias recsound", "", 0, 0);
-            mciSendString("record recsound", "", 0, 0);
+            try
+            {
+                this.BackColor = Color.Red;
+                mciSendString("open new type WAVEAudio alias recsound", "", 0, 0);
+                mciSendString("record recsound", "", 0, 0);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.BackColor = Color.Blue;
-            mciSendString("stop recsound", "", 0, 0);
-            mciSendString($"save recsound temp.wav", "", 0, 0); //($"save recsound {DateTime.Now.ToString().Replace('.', '_').Replace(':', '_')}.wav", "", 0, 0);
-            mciSendString("close recsound", "", 0, 0);
-            this.BackColor = Color.Green;
+            try
+            {
+                this.BackColor = Color.Blue;
+                mciSendString("stop recsound", "", 0, 0);
+                mciSendString($"save recsound temp.wav", "", 0, 0); //($"save recsound {DateTime.Now.ToString().Replace('.', '_').Replace(':', '_')}.wav", "", 0, 0);
+                mciSendString("close recsound", "", 0, 0);
+                this.BackColor = Color.Green;
 
-            string path = "temp.wav";
+                string path = "temp.wav";
 
-            clientSocket.SendFile(path);
+                clientSocket.SendFile(path);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void ClientForm_Load(object sender, EventArgs e)

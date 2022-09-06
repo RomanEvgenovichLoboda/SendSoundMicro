@@ -8,14 +8,30 @@ namespace ServerWF
     {
         const int PORT = 8088;
         const string IP = "127.0.0.1";
-
-       
         IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(IP), PORT);
         Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         Socket clientSocket;
         public ServerForm()
         {
             InitializeComponent();
+
+            fileSystemWatcher1.Path = Directory.GetCurrentDirectory();
+            fileSystemWatcher1.NotifyFilter = NotifyFilters.Attributes
+                                 | NotifyFilters.CreationTime
+                                 | NotifyFilters.DirectoryName
+                                 | NotifyFilters.FileName
+                                 | NotifyFilters.LastAccess
+                                 | NotifyFilters.LastWrite
+                                 | NotifyFilters.Security
+                                 | NotifyFilters.Size;
+            fileSystemWatcher1.Filter = "*.wav";
+            fileSystemWatcher1.IncludeSubdirectories = true;
+            fileSystemWatcher1.EnableRaisingEvents = true;
+            foreach (var item in Directory.GetFiles(Directory.GetCurrentDirectory()))
+            {
+                if (Path.GetExtension(item).Equals(".wav")) { listBox1.Items.Add(Path.GetFileName(item).Replace("\\","/")); }
+            }
+
             Listen();
         }
         async void Listen()
@@ -25,8 +41,6 @@ namespace ServerWF
                 {
                     serverSocket.Bind(iPEnd);
                     serverSocket.Listen(10);
-
-
                     clientSocket = serverSocket.Accept();
                     int bytes = 2;
                     do
@@ -34,26 +48,17 @@ namespace ServerWF
                         label1.Text = $"Server listen on {IP}:{PORT}";
                         bytes = 0;
                         byte[] buffer = new byte[51024];
-                        // StringBuilder builder = new StringBuilder();
                         do
                         {
                             bytes = clientSocket.Receive(buffer);
-                            //File.WriteAllBytes($"123.wav", buffer);
-                            //builder.Append(Encoding.Unicode.GetString(buffer, 0, bytes));
                         } while (clientSocket.Available > 0);
-                        string str = $"{DateTime.Now.ToString().Replace('.', '_').Replace(':', '_')}.wav";
+                        string str = $"message__{DateTime.Now.ToString().Replace('.', '_').Replace(':', '_')}.wav";
                         if(bytes > 0) {
                             File.WriteAllBytes(str, buffer);
-                            listBox1.Items.Add(str);
+                            //listBox1.Items.Add(str);
+
                         }
-                        
-                        //await Task.Delay(1);
                     } while (bytes!=0);
-
-                    //Console.WriteLine($"ok");
-
-
-
                     clientSocket?.Close();
                     serverSocket.Shutdown(SocketShutdown.Both);
                     serverSocket?.Close();
@@ -62,14 +67,8 @@ namespace ServerWF
                 {
                     MessageBox.Show(ex.Message);
                 }
-
-
                 label1.Text = "Server end...";
             });
-            
-
-            
-           // Console.ReadLine();
         }
 
         private void ServerForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -79,15 +78,19 @@ namespace ServerWF
             serverSocket?.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Listen();
+            await Task.Run(() =>
+            {
+                SoundPlayer soundPlayer = new SoundPlayer(listBox1.SelectedItem.ToString());
+                soundPlayer.Play();
+            });
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void fileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
         {
-            SoundPlayer soundPlayer = new SoundPlayer(listBox1.SelectedItem.ToString());
-            soundPlayer.Play();
+            MessageBox.Show("File Ad");
+            listBox1.Items.Add(e.Name);
         }
     }
 }
