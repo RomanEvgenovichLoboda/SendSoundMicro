@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendSoundMicro", "SendSoundMicro\SendSoundMicro.csproj", "{580C5E30-1F62-4819-8A3A-B290806CA956}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWF", "SendSoundMicro\ClientWF.csproj", "{580C5E30-1F62-4819-8A3A-B290806CA956}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerWF", "ServerWF\ServerWF.csproj", "{D90CE207-B016-49C0-97C9-BB67861784AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{580C5E30-1F62-4819-8A3A-B290806CA956}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{580C5E30-1F62-4819-8A3A-B290806CA956}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{580C5E30-1F62-4819-8A3A-B290806CA956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D90CE207-B016-49C0-97C9-BB67861784AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D90CE207-B016-49C0-97C9-BB67861784AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D90CE207-B016-49C0-97C9-BB67861784AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D90CE207-B016-49C0-97C9-BB67861784AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
