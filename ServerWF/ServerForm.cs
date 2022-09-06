@@ -1,3 +1,4 @@
+using System.Media;
 using System.Net;
 using System.Net.Sockets;
 
@@ -15,7 +16,7 @@ namespace ServerWF
         public ServerForm()
         {
             InitializeComponent();
-           
+            Listen();
         }
         async void Listen()
         {
@@ -81,6 +82,12 @@ namespace ServerWF
         private void button1_Click(object sender, EventArgs e)
         {
             Listen();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(listBox1.SelectedItem.ToString());
+            soundPlayer.Play();
         }
     }
 }

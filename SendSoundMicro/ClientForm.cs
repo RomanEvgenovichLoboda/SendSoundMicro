@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Media;
 
 namespace SendSoundMicro
 {
